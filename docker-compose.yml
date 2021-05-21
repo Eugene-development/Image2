@@ -1,0 +1,31 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+#    image: php:7.3-fpm
+    container_name: symax_php_Image
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: symax_nginx_Image
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "7701:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
