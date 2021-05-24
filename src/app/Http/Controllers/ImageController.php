@@ -12,7 +12,6 @@ class ImageController extends Controller
 {
     public function store(Request $request)
     {
-//        dd($request->file('image')->getClientOriginalName());
         $path = $request->file('image')->store('images', 's3');
 
         //        Или ткут паблик делать, или в конфигах s3 добавить 'visibility' => 'public', или на самом aws
@@ -30,5 +29,11 @@ class ImageController extends Controller
     public function show(Image $image)
     {
         return Storage::disk('s3')->response('images/' . $image->filename);
+    }
+
+    public function delete($param)
+    {
+        Image::where('product_id', $param)
+            ->delete();
     }
 }
