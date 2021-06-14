@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: ./docker/php/Dockerfile
 #    image: php:7.3-fpm
-    container_name: symax_php_Image
+    container_name: "${COMPOSE_PROJECT_NAME}_PHP"
     restart: unless-stopped
     tty: true
     environment:
@@ -21,11 +21,11 @@ services:
   #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: symax_nginx_Image
+    container_name: "${COMPOSE_PROJECT_NAME}_NGINX"
     restart: unless-stopped
     tty: true
     ports:
-      - "7701:80"
+      - "7741:80"
     volumes:
       - ./:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
