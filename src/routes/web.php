@@ -13,6 +13,11 @@
 |
 */
 
+$router->get('/health', function () {
+    return 'Hello World';
+});
+
+
 $router->post('/upload-image', 'ImageController@store');
 $router->get('/get-image/{image}', 'ImageController@show');
 $router->delete('/delete-image/{param}', 'ImageController@delete');

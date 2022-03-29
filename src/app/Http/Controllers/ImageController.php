@@ -15,8 +15,12 @@ class ImageController extends Controller
 
         $token = $request->bearerToken();
 
-        if($token == '1'){
+
+
+        if($token == '1' || $token == '4'){
             $path = $request->file('image')->store('images', 's3');
+
+//            dd(basename($path));
 
             //        Или ткут паблик делать, или в конфигах s3 добавить 'visibility' => 'public', или на самом aws
             Storage::disk('s3')->setVisibility($path, 'public');
@@ -32,8 +36,10 @@ class ImageController extends Controller
         }
 
         if($token == '2'){
-            $path = $request->file('image')->store('luba-mebel/products', 's3');
+//            dd($request->file('image'));
 
+            $path = $request->file('image')->store('luba-mebel/products', 's3');
+//            dd(basename($path));
             //        Или ткут паблик делать, или в конфигах s3 добавить 'visibility' => 'public', или на самом aws
             Storage::disk('s3')->setVisibility($path, 'public');
 
@@ -62,19 +68,13 @@ class ImageController extends Controller
 
             return $image;
         }
-
-
-
-
-
-
     }
 
     public function show(Request $request, Image $image) //TODO этот метод вообще нужен?
     {
         $token = $request->bearerToken();
 
-        if($token == '7') {
+        if($token == '1') {
             return Storage::disk('s3')->response('images/' . $image->filename);
         }
 
